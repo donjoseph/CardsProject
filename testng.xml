@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+<suite name="Test Suite" verbose="1">
+    <listeners>
+        <listener class-name="config.TestListener" />
+    </listeners>
+    <test name="Deck of Cards Api Tests">
+        <classes>
+            <class name="tests.Test_NewDeck" />
+            <class name="tests.Test_NewDeckNegativeCases" />
+            <class name="tests.Test_DrawCard" />
+            <class name="tests.Test_DrawCardSameDeck" />
+            <class name="tests.Test_DrawCardSameDeckWithJoker" />
+            <class name="tests.Test_DrawCardNegativeCases" />
+            <class name="tests.Test_DrawCardNegativeCases" />
+        </classes>
+    </test>
+</suite>
