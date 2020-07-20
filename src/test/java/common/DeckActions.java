@@ -43,7 +43,6 @@ public class DeckActions extends BaseClass {
      * */
     public Response createDeck() {
 
-        reportLog("***********sending request for new deck***********");
         return given(requestSpecification)
                 .get(CREATE_DECK_ENDPOINT);
     }
@@ -54,7 +53,6 @@ public class DeckActions extends BaseClass {
      * @param jocker_enabled*/
     public Response createDeckWithJoker(Boolean jocker_enabled) {
 
-        reportLog("******sending request for new deck with joker*****");
         return given(requestSpecification)
                 .queryParam("jokers_enabled", String.valueOf(jocker_enabled))
                 .get(CREATE_DECK_ENDPOINT);
@@ -66,7 +64,6 @@ public class DeckActions extends BaseClass {
      * @param jocker_enabled*/
     public Response createDeckWithJokerPost(Boolean jocker_enabled) {
 
-        reportLog("******sending request for new deck with joker*****");
         return given(requestSpecification)
                 .queryParam("jokers_enabled", String.valueOf(jocker_enabled))
                 .body("{}")

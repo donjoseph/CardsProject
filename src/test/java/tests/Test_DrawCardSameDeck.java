@@ -23,7 +23,13 @@ public class Test_DrawCardSameDeck extends BaseClass{
     @BeforeClass
     public void getDeckId(){
 
-        deck_id = deckActions.createDeck().then().extract().body().as(Deck.class).getDeck_id();
+        deck_id = deckActions.createDeck()
+                .then()
+                .extract()
+                .body()
+                .as(Deck.class)
+                .getDeck_id();
+
         deckValidation = new DeckValidation();
     }
 

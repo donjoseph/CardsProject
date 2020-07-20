@@ -1,5 +1,6 @@
 package common;
 
+import config.ApiStatus;
 import io.restassured.response.Response;
 import org.testng.Assert;
 import tests.BaseClass;
@@ -16,9 +17,10 @@ public class ApiValidation extends BaseClass {
      * */
     public void statusValidation(Response rs){
 
-        reportLog("Expected status code: " + 200);
+        reportLog("Expected status code: " + ApiStatus.SUCCESS.getStatus());
         reportLog("Actual status code: " + rs.getStatusCode());
-        Assert.assertEquals(rs.getStatusCode(), 200,
+        Assert.assertEquals(rs.getStatusCode(),
+                ApiStatus.SUCCESS.getStatus().intValue(),
                 "Validation of status code");
     }
 

@@ -1,6 +1,7 @@
 package tests;
 
 import common.DeckValidation;
+import config.JokerStatus;
 import io.restassured.response.Response;
 import models.Deck;
 import org.testng.annotations.DataProvider;
@@ -50,11 +51,15 @@ public class Test_DrawCard extends BaseClass{
     public void test_drawCardWithJoker(int card_count){
 
         reportLog("executing for card_count : " + card_count);
-        deck_id = deckActions.createDeckWithJoker(true).then().extract().body().as(Deck.class).getDeck_id();
+        deck_id = deckActions.createDeckWithJoker(JokerStatus.JOKER_STATUS_TRUE.getStatus())
+                .then()
+                .extract()
+                .body()
+                .as(Deck.class).getDeck_id();
         response = deckActions.drawCards(deck_id, card_count);
         apiValidation.statusValidation(response);
 
-        deckValidation = new DeckValidation(true);
+        deckValidation = new DeckValidation(JokerStatus.JOKER_STATUS_TRUE.getStatus());
         deckValidation.validateCardsDrawn(response, card_count, deck_id);
         reportLog("execution completed for card_count : " + card_count);
     }

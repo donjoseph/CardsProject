@@ -1,6 +1,7 @@
 package tests;
 
 import common.DeckValidation;
+import config.DeckSize;
 import io.restassured.response.Response;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Listeners;
@@ -34,7 +35,7 @@ public class Test_NewDeckNegativeCases extends BaseClass {
 
         response = deckActions.createDeckWithJoker(false);
         apiValidation.statusValidation(response);
-        deckValidation.validateNewDeck(response, 52);
+        deckValidation.validateNewDeck(response, DeckSize.REGULAR_DECK_SIZE.getSize());
     }
 
     /**
@@ -49,7 +50,7 @@ public class Test_NewDeckNegativeCases extends BaseClass {
 
         response = deckActions.createDeckWithJoker(null);
         apiValidation.statusValidation(response);
-        deckValidation.validateNewDeck(response, 52);
+        deckValidation.validateNewDeck(response, DeckSize.REGULAR_DECK_SIZE.getSize());
     }
 
 }

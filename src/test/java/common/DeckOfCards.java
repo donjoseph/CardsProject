@@ -1,5 +1,6 @@
 package common;
 
+import config.JokerStatus;
 import models.Card;
 
 import java.util.ArrayList;
@@ -15,7 +16,7 @@ public class DeckOfCards {
     /////////////////////////////// Constructors ////////////////////////////////////
     /////////////////////////////////////////////////////////////////////////////////
     public DeckOfCards(){
-        generateTestDeck(false);
+        generateTestDeck(JokerStatus.JOKER_STATUS_FALSE.getStatus());
     }
 
     public DeckOfCards(boolean joker_status){

@@ -1,6 +1,8 @@
 package tests;
 
 import common.DeckValidation;
+import config.DeckSize;
+import config.JokerStatus;
 import io.restassured.response.Response;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Listeners;
@@ -34,7 +36,7 @@ public class Test_NewDeck extends BaseClass {
 
         response = deckActions.createDeck();
         apiValidation.statusValidation(response);
-        deckValidation.validateNewDeck(response, 52);
+        deckValidation.validateNewDeck(response, DeckSize.REGULAR_DECK_SIZE.getSize());
     }
 
     /**
@@ -47,9 +49,9 @@ public class Test_NewDeck extends BaseClass {
     @Test
     public void test_newDeckWithJoker(){
 
-        response = deckActions.createDeckWithJoker(true);
+        response = deckActions.createDeckWithJoker(JokerStatus.JOKER_STATUS_TRUE.getStatus());
         apiValidation.statusValidation(response);
-        deckValidation.validateNewDeck(response, 54);
+        deckValidation.validateNewDeck(response, DeckSize.JOKER_DECK_SIZE.getSize());
     }
 
     /**
@@ -59,12 +61,13 @@ public class Test_NewDeck extends BaseClass {
      * 2. validate status of the new deck API response
      * 3. validate body of the new deck API response
      * **/
+    //This test case is failing because POST is returning 403.
     @Test
     public void test_newDeckWithJokerPost(){
 
-        response = deckActions.createDeckWithJokerPost(true);
+        response = deckActions.createDeckWithJokerPost(JokerStatus.JOKER_STATUS_TRUE.getStatus());
         apiValidation.statusValidation(response);
-        deckValidation.validateNewDeck(response, 54);
+        deckValidation.validateNewDeck(response, DeckSize.JOKER_DECK_SIZE.getSize());
     }
 
 }

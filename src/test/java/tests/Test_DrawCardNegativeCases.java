@@ -1,6 +1,8 @@
 package tests;
 
 import common.DeckValidation;
+import config.ApiStatus;
+import config.DeckSize;
 import io.restassured.response.Response;
 import models.Deck;
 import org.testng.annotations.*;
@@ -22,7 +24,13 @@ public class Test_DrawCardNegativeCases extends BaseClass{
     @BeforeMethod
     public void getDeckId(){
 
-        deck_id = deckActions.createDeck().then().extract().body().as(Deck.class).getDeck_id();
+        deck_id = deckActions.createDeck()
+                .then()
+                .extract()
+                .body()
+                .as(Deck.class)
+                .getDeck_id();
+
         deckValidation = new DeckValidation();
     }
 
@@ -35,8 +43,8 @@ public class Test_DrawCardNegativeCases extends BaseClass{
     @Test
     public void testNullCount(){
 
-        response = deckActions.drawCards(deck_id, null);
-        apiValidation.statusValidation(response, 500);
+        response = deckActions.drawCards(deck_id, DeckSize.NULL_DECK_SIZE.getSize());
+        apiValidation.statusValidation(response, ApiStatus.SERVER_ERROR.getStatus());
     }
 
     /**
@@ -49,9 +57,9 @@ public class Test_DrawCardNegativeCases extends BaseClass{
     @Test
     public void testZeroCount(){
 
-        response = deckActions.drawCards(deck_id, 0);
+        response = deckActions.drawCards(deck_id, DeckSize.ZERO_DECK_SIZE.getSize());
         apiValidation.statusValidation(response);
-        deckValidation.validateCardsDrawn(response, 0, deck_id);
+        deckValidation.validateCardsDrawn(response, DeckSize.ZERO_DECK_SIZE.getSize(), deck_id);
     }
 
     /**
@@ -61,12 +69,13 @@ public class Test_DrawCardNegativeCases extends BaseClass{
      * 2. validate status of the draw card API response
      * 3. validate body of the draw card API response
      **/
+    //This test case is failing because -ve count < 0 and > -52 is returning cards. Here the no of cards returned = deck_size + (-ve count)
     @Test
     public void testNegativeCount(){
 
-        response = deckActions.drawCards(deck_id, -100);
+        response = deckActions.drawCards(deck_id, DeckSize.NEGATIVE_DECK_SIZE.getSize());
         apiValidation.statusValidation(response);
-        deckValidation.validateCardsDrawn(response, -100, deck_id);
+        deckValidation.validateCardsDrawn(response, DeckSize.NEGATIVE_DECK_SIZE.getSize(), deck_id);
     }
 
     /**
@@ -79,9 +88,9 @@ public class Test_DrawCardNegativeCases extends BaseClass{
     @Test
     public void testExceedingCount(){
 
-        response = deckActions.drawCards(deck_id, 100);
+        response = deckActions.drawCards(deck_id, DeckSize.EXCEEDING_DECK_SIZE.getSize());
         apiValidation.statusValidation(response);
-        deckValidation.validateCardsDrawn(response, 100, deck_id);
+        deckValidation.validateCardsDrawn(response, DeckSize.EXCEEDING_DECK_SIZE.getSize(), deck_id);
     }
 
     /**
@@ -97,12 +106,12 @@ public class Test_DrawCardNegativeCases extends BaseClass{
     @Test
     public void testZeroRemainingDeck(){
 
-        response = deckActions.drawCards(deck_id, 52);
+        response = deckActions.drawCards(deck_id, DeckSize.REGULAR_DECK_SIZE.getSize());
         apiValidation.statusValidation(response);
-        deckValidation.removeCardsFromTestDeck(52);
-        response = deckActions.drawCards(deck_id, 10);
+        deckValidation.removeCardsFromTestDeck(DeckSize.REGULAR_DECK_SIZE.getSize());
+        response = deckActions.drawCards(deck_id, DeckSize.RANDOM_DECK_SIZE.getSize());
         apiValidation.statusValidation(response);
-        deckValidation.validateCardsDrawn(response, 0, deck_id);
+        deckValidation.validateCardsDrawn(response, DeckSize.ZERO_DECK_SIZE.getSize(), deck_id);
     }
 
 }

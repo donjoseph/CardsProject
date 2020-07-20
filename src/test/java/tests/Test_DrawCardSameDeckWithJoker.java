@@ -1,6 +1,7 @@
 package tests;
 
 import common.DeckValidation;
+import config.JokerStatus;
 import io.restassured.response.Response;
 import models.Deck;
 import org.testng.annotations.*;
@@ -23,8 +24,14 @@ public class Test_DrawCardSameDeckWithJoker extends BaseClass{
     @BeforeClass
     public void getDeckId(){
 
-        deck_id = deckActions.createDeckWithJoker(true).then().extract().body().as(Deck.class).getDeck_id();
-        deckValidation = new DeckValidation(true);
+        deck_id = deckActions.createDeckWithJoker(JokerStatus.JOKER_STATUS_TRUE.getStatus())
+                .then()
+                .extract()
+                .body()
+                .as(Deck.class)
+                .getDeck_id();
+
+        deckValidation = new DeckValidation(JokerStatus.JOKER_STATUS_TRUE.getStatus());
     }
 
     /**
